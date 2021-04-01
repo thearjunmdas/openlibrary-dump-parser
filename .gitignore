@@ -1,0 +1,12 @@
+## PROJECT::GENERAL
+doc
+.ruby-version
+.yardoc
+.DS_Store
+
+## BUNDLER
+*.gem
+.bundle
+Gemfile.lock
+vendor/bundle
+
