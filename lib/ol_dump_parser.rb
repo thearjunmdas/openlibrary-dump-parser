@@ -1,4 +1,4 @@
-require 'ol_dump_parser/parser'
+require_relative 'ol_dump_parser/parser'
 
 # Serves as the namespace for the whole gem
 module OlDumpParser

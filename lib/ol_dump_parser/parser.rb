@@ -23,23 +23,16 @@ module OlDumpParser
     def parse
       output = File.open out_file, 'w'
       File.open(inp_file).each do |line|
-        line = csv_safe line
-        parsed_line = CSV.parse line, liberal_parsing: true
-        output.write csv_row_to_json(parsed_line)
+        # CSV parse returns an array of rows - we need only the first
+        parsed_line = CSV.parse(line.chomp, col_sep: "\t", liberal_parsing: true).first
+        json_output = csv_row_to_json(parsed_line)
+        p json_output[:details]['name']
+        output.puts json_output
       end
       output.close
     end
 
     private
-    
-    # Make the input string csv parsable
-    # Currently method just replaces 3 spaces with a coma
-    # Need to add new rules in the future
-    # @param line [String] Input string to be made csv_safe
-    # @return [String] A csv safe string is returned
-    def csv_safe(line)
-      line.gsub(/\s{3,}/, ',')
-    end
 
     # Convert the given row values to a json object
     # @param row_values [Array] Csv row values
@@ -50,17 +43,8 @@ module OlDumpParser
         key: row_values[1],
         revision: row_values[2],
         last_modified: row_values[3],
-        details: blob_from_csv(row_values)
+        details: JSON.parse(row_values[4])
       }
-    end
-
-    # OL Dump always has first 4 columns as meta information
-    # 5th column is the blob with all details. This method will use this insight to parse the csv
-    # @param row_values [Array] Csv row values
-    # @return [String] Blob
-    def blob_from_csv(row_values)
-      blob = row_values[4..]
-      blob.join ','
     end
   end
 end
