@@ -3,16 +3,16 @@ require File.expand_path('lib/ol_dump_parser/version', __dir__)
 
 Gem::Specification.new do |s|
   s.name        = 'ol_dump_parser'
-  s.version     = OlDumpParser::Version
+  s.version     = OlDumpParser::VERSION
   s.authors     = ['Arjun M Das']
   s.email       = 'arjundas.27586@gmail.com'
   s.files       = Dir['lib/**/*']
   # Include the CHANGELOG.md, LICENSE.md, README.md manually
-  s.files      += %w[LICENSE.md README.md]
+  s.files      += %w[LICENSE README.md]
   s.homepage    = 'https://github.com/thearjunmdas/openlibrary-dump-parser'
   s.license     = 'MIT'
-  spec.add_development_dependency 'rubocop'
-  spec.add_development_dependency 'rubocop-performance'
+  s.add_development_dependency 'rubocop'
+  s.add_development_dependency 'rubocop-performance'
 
   
   s.summary = 'Open Library Dump Parser'
