@@ -10,6 +10,9 @@ module OlDumpParser
     # @return [String] Path to the output file
     attr_accessor :out_file
 
+    # @return [Boolean] Verbose mode
+    attr_accessor :verbose
+    
     # Constructor for Parser
     # @param [Hash] params Inputs to parser
     # @option params [String] :inp_file Path to the input file
@@ -17,6 +20,7 @@ module OlDumpParser
     def initialize(params)
       self.inp_file = params[:inp_file]
       self.out_file = params[:out_file]
+      self.verbose  = params[:verbose] || false 
     end
 
     # Parses the input csv file and converts to a json file
@@ -26,7 +30,7 @@ module OlDumpParser
         # CSV parse returns an array of rows - we need only the first
         parsed_line = CSV.parse(line.chomp, col_sep: "\t", liberal_parsing: true).first
         json_output = csv_row_to_json(parsed_line)
-        p json_output[:details]['name']
+        puts json_output[:details]['name'] if verbose
         output.puts json_output
       end
       output.close

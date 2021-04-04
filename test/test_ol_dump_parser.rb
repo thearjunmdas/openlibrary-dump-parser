@@ -1,6 +1,6 @@
 require 'minitest/autorun'
+require 'mocha/minitest'
 require 'ol_dump_parser'
-require 'byebug'
 
 class OldDumpParserTest < Minitest::Test
   def setup
@@ -19,5 +19,18 @@ class OldDumpParserTest < Minitest::Test
     @ol_dump_parser.inp_file = @test_files_inp_path + '/authors_5_lines.txt'
     @ol_dump_parser.parse
     assert_equal File.read(@test_files_out_path + '/authors_5_lines.json'), File.read(@ol_dump_parser.out_file)
+  end
+
+  def test_verbose_mode_off
+    @ol_dump_parser.inp_file = @test_files_inp_path + '/authors_5_lines.txt'
+    @ol_dump_parser.expects(:puts).never
+    @ol_dump_parser.parse
+  end
+
+  def test_verbose_mode_on
+    @ol_dump_parser.verbose = true
+    @ol_dump_parser.inp_file = @test_files_inp_path + '/authors_5_lines.txt'
+    @ol_dump_parser.expects(:puts).times(5)
+    @ol_dump_parser.parse
   end
 end
