@@ -29,19 +29,19 @@ module OlDumpParser
       File.open(inp_file).each do |line|
         # CSV parse returns an array of rows - we need only the first
         parsed_line = CSV.parse(line.chomp, col_sep: "\t", liberal_parsing: true).first
-        json_output = csv_row_to_json(parsed_line)
-        puts json_output[:details]['name'] if verbose
-        output.puts json_output
+        value_map = csv_row_to_map(parsed_line)
+        puts value_map[:details]['name'] if verbose
+        output.puts value_map.to_json
       end
       output.close
     end
 
     private
 
-    # Convert the given row values to a json object
+    # Convert the given row values to a hashmap
     # @param row_values [Array] Csv row values
-    # @return [Hash] Json value
-    def csv_row_to_json(row_values)
+    # @return [Hash] hash map
+    def csv_row_to_map(row_values)
       {
         type: row_values[0],
         key: row_values[1],
